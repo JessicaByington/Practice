@@ -6,34 +6,32 @@ using std::endl;
 using std::string;
 using std::to_string;
 
-#include <chrono>
-using std::chrono::nanoseconds;
-using std::chrono::steady_clock;
-using std::chrono::duration_cast;
+const int FUZZ_MULTI = 3;
+const int BUZZ_MULTI = 5;
+const int START_NUM = 1;
+const int END_NUM = 100;
 
 void FuzzBuzz();
 
 int main()
 {
-	auto start = steady_clock::now();
-
 	FuzzBuzz();
 
-	auto end = steady_clock::now();
-	auto diff = end - start;
-	cout << duration_cast<nanoseconds>(diff).count() << " ns" << endl;
 	return 0;
 }
 
 void FuzzBuzz()
 {
-	int i = 1;
-
-	for (int i = 1; i <= 100; i++)
+	// calculate if number is a multiple of the specified number and print results
+	for (int i = START_NUM; i <= END_NUM; i++)
 	{
-		int fuzz = (i % 3);
-		int buzz = (i % 5);
+		// Store modulus operations for the current value of i
+		int fuzz = (i % FUZZ_MULTI);
+		int buzz = (i % BUZZ_MULTI);
 
-		cout << (!fuzz ? "Fuzz" : "") << (!buzz ? "Buzz" : "") << ((fuzz && buzz) ? to_string(i) : "") << endl;;
+		cout << (!fuzz ? "Fuzz" : "") // is i a multiple of FUZZ_MULTI
+			 << (!buzz ? "Buzz" : "") // is i a multiple of BUZZ_MULTI
+			 << ((fuzz && buzz) ? to_string(i) : "") // is i not a mutliple of either
+			 << endl;
 	}
 }
